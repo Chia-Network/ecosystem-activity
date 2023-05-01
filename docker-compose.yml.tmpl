@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: db
+    image: mysql:8.0.33
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ecosystem
+      MYSQL_USER: collector
+      MYSQL_PASSWORD: examplepasswd
+      MYSQL_ROOT_PASSWORD: examplerootpasswd
+    ports:
+      # This port is set so you can use tools like mysql workbench to visualize changes to the tables in this db as you iterate.
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - db_data:/var/lib/mysql
+
+  ecosystem-activity-collector:
+    container_name: collector
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    healthcheck:
+      test: wget --no-verbose -q --output-document - http://localhost:8080/healthz || exit 1
+      interval: 30s
+      timeout: 15s
+      retries: 3
+    environment:
+      ECOSYSTEM_ACTIVITY_GITHUB_TOKEN: changeme
+      ECOSYSTEM_ACTIVITY_INTERVAL: 1
+      ECOSYSTEM_ACTIVITY_CONFIG: /config.yaml
+      ECOSYSTEM_ACTIVITY_LOG_LEVEL: debug
+      ECOSYSTEM_ACTIVITY_MYSQL_HOST: db
+      ECOSYSTEM_ACTIVITY_MYSQL_DATABASE: ecosystem
+      ECOSYSTEM_ACTIVITY_MYSQL_USER: collector
+      ECOSYSTEM_ACTIVITY_MYSQL_PASSWORD: examplepasswd
+    volumes:
+      - ./testconfig.yaml:/config.yaml
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:
