@@ -39,8 +39,8 @@ jobs:
           secrets: |
             secret/data/github_users/chiaautomation/ecosystem-activity token | ECOSYSTEM_ACTIVITY_GITHUB_TOKEN;
             secret/data/pub-metrics-eks/rds/rds-info db_host | ECOSYSTEM_ACTIVITY_MYSQL_HOST;
-            secret/data/pub-metrics-eks/rds/blocks-write-user username | ECOSYSTEM_ACTIVITY_MYSQL_USER;
-            secret/data/pub-metrics-eks/rds/blocks-write-user password | ECOSYSTEM_ACTIVITY_MYSQL_PASSWORD;
+            secret/data/pub-metrics-eks/rds/ecosystem-write-user username | ECOSYSTEM_ACTIVITY_MYSQL_USER;
+            secret/data/pub-metrics-eks/rds/ecosystem-write-user password | ECOSYSTEM_ACTIVITY_MYSQL_PASSWORD;
             secret/data/fmt/k8s/ghcr_image_pull username | IMAGE_PULL_USERNAME;
             secret/data/fmt/k8s/ghcr_image_pull password | IMAGE_PULL_PASSWORD;
 
