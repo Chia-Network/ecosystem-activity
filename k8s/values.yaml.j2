@@ -1,0 +1,24 @@
+image:
+  repository: ghcr.io/chia-network/ecosystem-activity
+  tag: "{{ DOCKER_TAG }}"
+
+imagePullSecrets:
+  - name: ecosystem-activity-image-pull
+
+deployment:
+  containerPort: 8080
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+
+secretEnvironment:
+  ECOSYSTEM_ACTIVITY_MYSQL_HOST: "{{ ECOSYSTEM_ACTIVITY_MYSQL_HOST }}"
+  ECOSYSTEM_ACTIVITY_MYSQL_USER: "{{ ECOSYSTEM_ACTIVITY_MYSQL_USER }}"
+  ECOSYSTEM_ACTIVITY_MYSQL_PASSWORD: "{{ ECOSYSTEM_ACTIVITY_MYSQL_PASSWORD }}"
+  ECOSYSTEM_ACTIVITY_MYSQL_DATABASE: "ecosystem_activity"
+  ECOSYSTEM_ACTIVITY_CONFIG: "/config.yaml"
