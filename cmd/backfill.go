@@ -58,7 +58,30 @@ var backfillCmd = &cobra.Command{
 				log.Fatalf("Error updating record for %s/%s: %s\n", owner, repo, err.Error())
 			}
 		}
+		rows.Close()
 
+		rows, err = db.Query("select id, username from users where first_commit IS NULL or last_commit IS NULL")
+		if err != nil {
+			log.Fatalf("Error querying repos: %s\n", err.Error())
+		}
+		for rows.Next() {
+			var (
+				id       int
+				username string
+			)
+			if err := rows.Scan(&id, &username); err != nil {
+				log.Fatalf("Error scanning row: %s\n", err.Error())
+			}
+
+			log.Printf("Looking up data on user %s\n", username)
+			firstCommit := getFirstCommitForUser(id)
+			lastCommit := getLastCommitForUser(id)
+			_, err = db.Exec("Update users set first_commit = ?, last_commit = ? where id = ?", firstCommit, lastCommit, id)
+			if err != nil {
+				log.Fatalf("Error updating record for %s: %s\n", username, err.Error())
+			}
+		}
+		rows.Close()
 	},
 }
 
@@ -94,6 +117,36 @@ func getLastCommit(owner, repo string) string {
 	}
 
 	rows, err := db.Query("select date from commits where repo_id = ? order by date desc limit 1", repoID)
+	if err != nil {
+		return ""
+	}
+	rows.Next()
+	var date string
+	err = rows.Scan(&date)
+	if err != nil {
+		return ""
+	}
+	return date
+}
+
+// Gets the first commit based on commit data in this DB
+func getFirstCommitForUser(id int) string {
+	rows, err := db.Query("select date from commits where user_id = ? order by date asc limit 1", id)
+	if err != nil {
+		return ""
+	}
+	rows.Next()
+	var date string
+	err = rows.Scan(&date)
+	if err != nil {
+		return ""
+	}
+	return date
+}
+
+// Gets the last commit based on commit data in this DB
+func getLastCommitForUser(id int) string {
+	rows, err := db.Query("select date from commits where user_id = ? order by date desc limit 1", id)
 	if err != nil {
 		return ""
 	}
