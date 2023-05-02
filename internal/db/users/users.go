@@ -6,6 +6,7 @@ import (
 	"github.com/chia-network/ecosystem-activity/internal/db"
 )
 
+// User represents all columns in one user entry in the users table
 type User struct {
 	ID          int
 	Username    string
