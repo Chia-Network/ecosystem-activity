@@ -28,13 +28,13 @@ CSV is expected to have the following fields:
 Owner,Repository,Commit Author, Commit SHA, Commit Date`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ignoreUsers := map[string]bool{
-			"dependabot[bot]": true,
-			"github-actions[bot]": true,
-			"ChiaAutomation": true,
-			"renovate[bot]": true,
+			"dependabot[bot]":           true,
+			"github-actions[bot]":       true,
+			"ChiaAutomation":            true,
+			"renovate[bot]":             true,
 			"mend-bolt-for-github[bot]": true,
-			"deepsource-autofix[bot]": true,
-			"hercules-ci[bot]": true,
+			"deepsource-autofix[bot]":   true,
+			"hercules-ci[bot]":          true,
 		}
 
 		// Init db package
