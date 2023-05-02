@@ -46,12 +46,12 @@ func Init(host, database, user, passwd string) error {
 
 // Query is an intermediary function to handle database queries on behalf of other packages in this application
 func Query(query string, args ...any) (*sql.Rows, error) {
-	return db.Query(query, args)
+	return db.Query(query, args...)
 }
 
 // Exec is an intermediary function to handle database queries on behalf of other packages in this application without returning rows
 func Exec(query string, args ...any) (sql.Result, error) {
-	return db.Exec(query, args)
+	return db.Exec(query, args...)
 }
 
 func assembleDataSourceName(host, database, user, passwd string) string {
@@ -95,7 +95,7 @@ func initCommitsTable() error {
 	ctx, cancelFunc := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancelFunc()
 	_, err := db.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS commits (
-		id INT PRIMARY KEY,
+		id INT PRIMARY KEY AUTO_INCREMENT,
 		repo_id INT,
 		user_id INT,
 		date DATETIME,
