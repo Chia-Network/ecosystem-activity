@@ -15,10 +15,10 @@ import (
 // List of repos subject to commit activity reporting
 var repoList map[string]bool
 
+// Run is the main logic loop for the collector service and accepts a config object and a resting interval duration in minutes for the collector service loop
 func Run(cfg config.Config, interval int) {
-	// Init maps
+	// Assemble full repo list from config, querying git remote site's specified orgs for additional repositories
 	repoList = make(map[string]bool)
-
 	err := createRepoList(cfg)
 	if err != nil {
 		log.Fatalf("couldn't put together a repo list from config: %v", err)
