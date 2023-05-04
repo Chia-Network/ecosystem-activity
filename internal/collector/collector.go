@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/chia-network/ecosystem-activity/internal/config"
+	"github.com/chia-network/ecosystem-activity/internal/db/repos"
 	gh "github.com/chia-network/ecosystem-activity/internal/github"
 
 	log "github.com/sirupsen/logrus"
@@ -78,4 +79,14 @@ func createRepoList(cfg config.Config) error {
 	}
 
 	return nil
+}
+
+func getSearchStartTime(r repos.Repo) time.Time {
+	// If ImportedThrough is a zero value then use the Chia incorporated date as a genesis
+	// Source: https://www.chia.net/faq/ "Chia was incorporated in August of 2017..."
+	if r.ImportedThrough.IsZero() {
+		return time.Date(2017, time.August, 1, 0, 0, 0, 0, time.UTC)
+	}
+
+	return r.ImportedThrough
 }
