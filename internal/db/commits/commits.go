@@ -18,6 +18,6 @@ type Commit struct {
 
 // SetNewRecord inserts one new record into the table
 func SetNewRecord(c Commit) error {
-	_, err := db.Exec(`INSERT INTO commits (repo_id,user_id,date,sha,notes) VALUES(?, ?, ?, ?, ?);`, c.RepoID, c.UserID, c.Date, c.SHA, c.Notes)
+	_, err := db.Exec(`INSERT INTO commits (repo_id,user_id,date,sha,notes) VALUES(?, ?, ?, ?, ?);`, c.RepoID, c.UserID, c.Date.Format("2006-01-02 15:04:05"), c.SHA, c.Notes)
 	return err
 }
