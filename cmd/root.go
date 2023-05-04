@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/chia-network/ecosystem-activity/internal/collector"
 	"github.com/chia-network/ecosystem-activity/internal/config"
 	"github.com/chia-network/ecosystem-activity/internal/db"
 	gh "github.com/chia-network/ecosystem-activity/internal/github"
@@ -31,8 +32,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		// Run collector, the main logic loop for this data collector tool
-		// TODO uncomment the following line when the collector package is completed
-		// go collector.Run(cfg, viper.GetInt("interval"))
+		go collector.Run(cfg, viper.GetInt("interval"))
 
 		// Healthcheck handler
 		http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
