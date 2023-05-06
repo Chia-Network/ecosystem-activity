@@ -18,14 +18,20 @@ func githubRepo(owner string, repo string) {
 	ownerRepoString := fmt.Sprintf("%s/%s", owner, repo)
 
 	// Get the row data for this repo in the repos table (makes a new row if one does not exist)
-	repoRow, err := getOrSetRepoRow(owner, repo)
+	repoRow, repoInTable, err := getRepoRow(owner, repo)
 	if err != nil {
 		log.Error(err)
 		return
 	}
 
 	// Get search start time by checking if the repo was already searched and using the last search time/datestamp if it was, use Chia Network incorporation date as genesis if not
-	searchStart := getSearchStartTime(repoRow)
+	var searchStart time.Time
+	if !repoInTable {
+		searchStart = time.Date(2017, time.August, 1, 0, 0, 0, 0, time.UTC)
+	} else {
+		searchStart = repoRow.ImportedThrough
+	}
+
 	// Search end time is always just now in UTC, but saving the timestamp here to ensure accurate timestamps in the `repos` table's `imported_through` column
 	searchEnd := time.Now().UTC()
 
@@ -33,10 +39,23 @@ func githubRepo(owner string, repo string) {
 	cmts, statusCode, err := gh.ListRepositoryCommits(owner, repo, searchStart, searchEnd)
 	if statusCode == 404 {
 		log.Warnf("Repo %s returned a 404", ownerRepoString)
+		return
 	}
 	if err != nil {
 		log.Errorf("Failed to get commit list for %s/%s with error: %v", owner, repo, err)
 		return
+	}
+
+	// Set repo in table because it did not 404
+	if !repoInTable {
+		repoRow, err = setInitialRepoRow(repos.Repo{
+			Owner: owner,
+			Repo:  repo,
+		})
+		if err != nil {
+			log.Error(err)
+			return
+		}
 	}
 
 	log.Debugf("Successfully queried commits for repo %s/%s, found %d commits", owner, repo, len(cmts))
@@ -183,29 +202,22 @@ func setUserRow(u users.User) (users.User, error) {
 }
 
 // gets the row data for a particular GitHub repository, or sets it with just the owner and repo so that we have the row ID for later
-func getOrSetRepoRow(owner string, repo string) (repos.Repo, error) {
+func getRepoRow(owner string, repo string) (repos.Repo, bool, error) {
 	var repoRow repos.Repo
 	rows, err := repos.GetRowsByOwnerAndRepo(owner, repo)
 	if err != nil {
-		return repoRow, err
+		return repoRow, false, err
 	}
 
 	if len(rows) > 1 {
-		return repoRow, fmt.Errorf("multiple rows found for %s/%s -- this would signify an unexpected condition, please check repos table", owner, repo)
+		return repoRow, false, fmt.Errorf("multiple rows found for %s/%s -- this would signify an unexpected condition, please check repos table", owner, repo)
 	}
 
 	if len(rows) == 0 {
-		repoRow, err = setInitialRepoRow(repos.Repo{
-			Owner: owner,
-			Repo:  repo,
-		})
-		if err != nil {
-			return repoRow, err
-		}
-		return repoRow, nil
+		return repoRow, false, nil
 	}
 
-	return rows[0], nil
+	return rows[0], true, nil
 }
 
 func setInitialRepoRow(r repos.Repo) (repos.Repo, error) {
