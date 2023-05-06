@@ -32,7 +32,7 @@ At this point just run the following to start the application:
 docker-compose up --build
 ```
 
-NOTE: You may run into issues where just re-upping the collector container isn't good enough. If you suspect you've malformed the DB in a previous attempt, spin the containers down first and cull the DB volume with:
+NOTE: You may run into issues where just re-upping the collector container isn't good enough. If you suspect you've malformed rows in a table in a previous attempt, spin the containers down first and cull the DB volume with:
 
 ```bash
 docker-compose down --volumes
