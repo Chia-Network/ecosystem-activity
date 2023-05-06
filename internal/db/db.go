@@ -56,7 +56,7 @@ func Exec(query string, args ...any) (sql.Result, error) {
 }
 
 func assembleDataSourceName(host, database, user, passwd string) string {
-	return fmt.Sprintf("%s:%s@tcp(%s)/%s", user, passwd, host, database)
+	return fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", user, passwd, host, database)
 }
 
 func initReposTable() error {
