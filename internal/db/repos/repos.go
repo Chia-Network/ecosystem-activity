@@ -1,6 +1,7 @@
 package repos
 
 import (
+	"database/sql"
 	"fmt"
 	"time"
 
@@ -18,28 +19,44 @@ type Repo struct {
 	Notes           string
 }
 
-// SetNewRecord inserts one new record into the table
-func SetNewRecord(r Repo) ([]Repo, error) {
-	var repos []Repo
-	rows, err := db.Query(`INSERT INTO repos (owner,repo,notes) VALUES(?, ?, ?, ?, ?);`, r.Owner, r.Repo, r.Notes)
-	if err != nil {
-		return []Repo{}, fmt.Errorf("error adding repo to repos table for \"%s\" and repo \"%s\": %v", r.Owner, r.Repo, err)
-	}
-	defer rows.Close()
+// repoWithNulls is a helper struct for mysql rows that may contain null fields
+// a null field using the mysql database driver won't scan into the appropriate field
+type repoWithNulls struct {
+	ID              sql.NullInt64
+	Owner           sql.NullString
+	Repo            sql.NullString
+	ImportedThrough sql.NullTime
+	FirstCommit     sql.NullTime
+	LastCommit      sql.NullTime
+	Notes           sql.NullString
+}
 
-	for rows.Next() {
-		var repo Repo
-		err := rows.Scan(&repo.ID, &repo.Owner, &repo.Repo, &repo.ImportedThrough, &repo.FirstCommit, &repo.LastCommit, &repo.Notes)
-		if err != nil {
-			return []Repo{}, fmt.Errorf("error scanning row for owner \"%s\" and repo \"%s\": %v", r.Owner, r.Repo, err)
-		}
-		repos = append(repos, repo)
+// convertSqlRepoToRepo handles the internal conversion between an sql row response and a user-friendly repo struct
+// because Go's sql package errors when scanning nil columns in a row
+func convertSqlRepoToRepo(r repoWithNulls) Repo {
+	var repo Repo
+	if r.ID.Valid {
+		repo.ID = int(r.ID.Int64)
 	}
-	if err := rows.Err(); err != nil {
-		return []Repo{}, fmt.Errorf("error encountered iterating through rows for owner \"%s\" and repo \"%s\": %v", r.Owner, r.Repo, err)
+	if r.Owner.Valid {
+		repo.Owner = r.Owner.String
 	}
-
-	return repos, nil
+	if r.Repo.Valid {
+		repo.Repo = r.Repo.String
+	}
+	if r.ImportedThrough.Valid {
+		repo.ImportedThrough = r.ImportedThrough.Time
+	}
+	if r.FirstCommit.Valid {
+		repo.FirstCommit = r.FirstCommit.Time
+	}
+	if r.LastCommit.Valid {
+		repo.LastCommit = r.LastCommit.Time
+	}
+	if r.Notes.Valid {
+		repo.Notes = r.Notes.String
+	}
+	return repo
 }
 
 // GetRowsByOwnerAndRepo returns the rows where the owner and repo both match (should be one row)
@@ -52,12 +69,14 @@ func GetRowsByOwnerAndRepo(owner, repo string) ([]Repo, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var r Repo
+		var r repoWithNulls
 		err := rows.Scan(&r.ID, &r.Owner, &r.Repo, &r.ImportedThrough, &r.FirstCommit, &r.LastCommit, &r.Notes)
 		if err != nil {
 			return repos, fmt.Errorf("error scanning row for owner \"%s\" and repo \"%s\": %v", owner, repo, err)
 		}
-		repos = append(repos, r)
+
+		nonNullRepo := convertSqlRepoToRepo(r)
+		repos = append(repos, nonNullRepo)
 	}
 	if err := rows.Err(); err != nil {
 		return repos, fmt.Errorf("error encountered iterating through rows for owner \"%s\" and repo \"%s\": %v", owner, repo, err)
@@ -66,9 +85,19 @@ func GetRowsByOwnerAndRepo(owner, repo string) ([]Repo, error) {
 	return repos, nil
 }
 
+// SetNewRecord inserts one new record into the table
+func SetNewRecord(repo Repo) error {
+	_, err := db.Exec(`INSERT INTO repos (owner,repo) VALUES(?, ?);`, repo.Owner, repo.Repo)
+	if err != nil {
+		return fmt.Errorf("error adding repo to repos table for \"%s\" and repo \"%s\": %v", repo.Owner, repo.Repo, err)
+	}
+
+	return nil
+}
+
 // UpdateLastCommitByID accepts a row ID and time object and updates the matching row's last_commit column to the timestamp
 func UpdateLastCommitByID(id int, ts time.Time) error {
-	_, err := db.Exec(`UPDATE repos SET last_commit='?' WHERE id='?';`, ts.Format("2006-01-02 15:04:05"), id)
+	_, err := db.Exec(`UPDATE repos SET last_commit=? WHERE id=?;`, ts.Format("2006-01-02 15:04:05"), id)
 	if err != nil {
 		return fmt.Errorf("error encountered updating last_commit on row ID %d: %v", id, err)
 	}
@@ -77,7 +106,7 @@ func UpdateLastCommitByID(id int, ts time.Time) error {
 
 // UpdateFirstCommitByID accepts a row ID and time object and updates the matching row's first_commit column to the timestamp
 func UpdateFirstCommitByID(id int, ts time.Time) error {
-	_, err := db.Exec(`UPDATE repos SET first_commit='?' WHERE id='?';`, ts.Format("2006-01-02 15:04:05"), id)
+	_, err := db.Exec(`UPDATE repos SET first_commit=? WHERE id=?;`, ts.Format("2006-01-02 15:04:05"), id)
 	if err != nil {
 		return fmt.Errorf("error encountered updating first_commit on row ID %d: %v", id, err)
 	}
@@ -86,7 +115,7 @@ func UpdateFirstCommitByID(id int, ts time.Time) error {
 
 // UpdateImportedThroughByID accepts a row ID and time object and updates the matching row's imported_through column to the timestamp
 func UpdateImportedThroughByID(id int, ts time.Time) error {
-	_, err := db.Exec(`UPDATE repos SET imported_through='?' WHERE id='?';`, ts.Format("2006-01-02 15:04:05"), id)
+	_, err := db.Exec(`UPDATE repos SET imported_through=? WHERE id=?;`, ts.Format("2006-01-02 15:04:05"), id)
 	if err != nil {
 		return fmt.Errorf("error encountered updating imported_through on row ID %d: %v", id, err)
 	}
