@@ -48,7 +48,7 @@ func githubRepo(owner string, repo string) {
 
 	// Set repo in table because it did not 404
 	if !repoInTable {
-		repoRow, err = setInitialRepoRow(repos.Repo{
+		repoRow, err = setRepoRow(repos.Repo{
 			Owner: owner,
 			Repo:  repo,
 		})
@@ -61,6 +61,7 @@ func githubRepo(owner string, repo string) {
 	log.Debugf("Successfully queried commits for repo %s/%s, found %d commits", owner, repo, len(cmts))
 
 	// For each commit we need to identify important data from the API response and submit it to the db
+	var latestCommit, earliestCommit time.Time
 	for _, commit := range cmts {
 		commitSHA, err := getCommitSHA(commit)
 		if err != nil {
@@ -142,25 +143,37 @@ func githubRepo(owner string, repo string) {
 			continue
 		}
 
-		// Update repos row. If this commit is earlier than `first_commit` or `first_commit` is empty, set to this commit's timestamp.
-		// If this commit is later than `last_commit` or `last_commit` is empty, set to this commit's timestamp
-		if repoRow.FirstCommit.After(commitTimestamp) || repoRow.FirstCommit.IsZero() {
-			err = repos.UpdateFirstCommitByID(repoRow.ID, commitTimestamp)
+		// Check if earliest commit or latest commit from this batch of commits
+		if earliestCommit.IsZero() || earliestCommit.After(commitTimestamp) {
+			earliestCommit = commitTimestamp
+		}
+		if latestCommit.IsZero() || latestCommit.Before(commitTimestamp) {
+			latestCommit = commitTimestamp
+		}
+	}
+
+	// Update repos row. If earliest commit is earlier than `first_commit` or `first_commit` is empty, set to this commit's timestamp.
+	// If latest commit is later than `last_commit` or `last_commit` is empty, set to this commit's timestamp
+	if !earliestCommit.IsZero() {
+		if repoRow.FirstCommit.After(earliestCommit) || repoRow.FirstCommit.IsZero() {
+			log.Debugf("setting first commit for repo %s/%s. current first commit %v. new first commit %v.", repoRow.Owner, repoRow.Repo, repoRow.FirstCommit, earliestCommit)
+			err = repos.UpdateFirstCommitByID(repoRow.ID, earliestCommit)
 			if err != nil {
 				log.Error(err)
-				continue
 			}
 		}
-		if repoRow.LastCommit.Before(commitTimestamp) || repoRow.LastCommit.IsZero() {
-			err = repos.UpdateLastCommitByID(repoRow.ID, commitTimestamp)
+	}
+	if !latestCommit.IsZero() {
+		if latestCommit.After(repoRow.LastCommit) || repoRow.LastCommit.IsZero() {
+			log.Debugf("setting last commit for repo %s/%s. current last commit %v. new last commit %v.", repoRow.Owner, repoRow.Repo, repoRow.LastCommit, latestCommit)
+			err = repos.UpdateLastCommitByID(repoRow.ID, latestCommit)
 			if err != nil {
 				log.Error(err)
-				continue
 			}
 		}
 	}
 
-	// Update repo's `imported_through` column as we imported these commits
+	// Update repo's `imported_through` column as we finished importing these commits
 	err = repos.UpdateImportedThroughByID(repoRow.ID, searchEnd)
 	if err != nil {
 		log.Error(err)
@@ -189,19 +202,19 @@ func getUserRow(u string) (users.User, bool, error) {
 }
 
 func setUserRow(u users.User) (users.User, error) {
-	rows, err := users.SetNewRecord(u)
+	err := users.SetNewRecord(u)
 	if err != nil {
 		return users.User{}, err
 	}
-	// If rows not equal to 1, something unexpected happened that will need manual troubleshooting
-	if len(rows) != 1 {
-		return users.User{}, fmt.Errorf("unexpected number of rows found for user %s after setting record -- this would signify an unexpected condition, please check users table. No. rows found: %d", u.Username, len(rows))
+
+	userRow, _, err := getUserRow(u.Username)
+	if err != nil {
+		return users.User{}, err
 	}
 
-	return rows[0], nil
+	return userRow, nil
 }
 
-// gets the row data for a particular GitHub repository, or sets it with just the owner and repo so that we have the row ID for later
 func getRepoRow(owner string, repo string) (repos.Repo, bool, error) {
 	var repoRow repos.Repo
 	rows, err := repos.GetRowsByOwnerAndRepo(owner, repo)
@@ -220,17 +233,18 @@ func getRepoRow(owner string, repo string) (repos.Repo, bool, error) {
 	return rows[0], true, nil
 }
 
-func setInitialRepoRow(r repos.Repo) (repos.Repo, error) {
-	rows, err := repos.SetNewRecord(r)
+func setRepoRow(r repos.Repo) (repos.Repo, error) {
+	err := repos.SetNewRecord(r)
 	if err != nil {
 		return repos.Repo{}, err
 	}
-	// If rows not equal to 1, something unexpected happened that will need manual troubleshooting
-	if len(rows) != 1 {
-		return repos.Repo{}, fmt.Errorf("unexpected number of rows found for %s/%s after setting record -- this would signify an unexpected condition, please check repos table. No. rows found: %d", r.Owner, r.Repo, len(rows))
+
+	repoRow, _, err := getRepoRow(r.Owner, r.Repo)
+	if err != nil {
+		return repos.Repo{}, err
 	}
 
-	return rows[0], nil
+	return repoRow, nil
 }
 
 func getCommitSHA(commit *github.RepositoryCommit) (string, error) {
