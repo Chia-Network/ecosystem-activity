@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/chia-network/ecosystem-activity/internal/db"
+	log "github.com/sirupsen/logrus"
 )
 
 // Repo represents all columns in one repo entry in the repos table
@@ -31,9 +32,9 @@ type repoWithNulls struct {
 	Notes           sql.NullString
 }
 
-// convertSqlRepoToRepo handles the internal conversion between an sql row response and a user-friendly repo struct
+// convertSQLRepoToRepo handles the internal conversion between an sql row response and a user-friendly repo struct
 // because Go's sql package errors when scanning nil columns in a row
-func convertSqlRepoToRepo(r repoWithNulls) Repo {
+func convertSQLRepoToRepo(r repoWithNulls) Repo {
 	var repo Repo
 	if r.ID.Valid {
 		repo.ID = int(r.ID.Int64)
@@ -66,7 +67,12 @@ func GetRowsByOwnerAndRepo(owner, repo string) ([]Repo, error) {
 	if err != nil {
 		return repos, fmt.Errorf("error querying repos table for rows by owner \"%s\" and repo \"%s\": %v", owner, repo, err)
 	}
-	defer rows.Close()
+	defer func(r *sql.Rows) {
+		err := r.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
+	}(rows)
 
 	for rows.Next() {
 		var r repoWithNulls
@@ -75,7 +81,7 @@ func GetRowsByOwnerAndRepo(owner, repo string) ([]Repo, error) {
 			return repos, fmt.Errorf("error scanning row for owner \"%s\" and repo \"%s\": %v", owner, repo, err)
 		}
 
-		nonNullRepo := convertSqlRepoToRepo(r)
+		nonNullRepo := convertSQLRepoToRepo(r)
 		repos = append(repos, nonNullRepo)
 	}
 	if err := rows.Err(); err != nil {

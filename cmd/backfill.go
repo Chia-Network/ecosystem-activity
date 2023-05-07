@@ -50,7 +50,10 @@ var backfillCmd = &cobra.Command{
 				log.Fatalf("Error updating record for %s/%s: %s\n", owner, repo, err.Error())
 			}
 		}
-		rows.Close()
+		err = rows.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
 
 		rows, err = db.Query("select id, username from users where first_commit IS NULL or last_commit IS NULL")
 		if err != nil {
@@ -73,7 +76,10 @@ var backfillCmd = &cobra.Command{
 				log.Fatalf("Error updating record for %s: %s\n", username, err.Error())
 			}
 		}
-		rows.Close()
+		err = rows.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
 	},
 }
 

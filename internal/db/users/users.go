@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/chia-network/ecosystem-activity/internal/db"
+	log "github.com/sirupsen/logrus"
 )
 
 // User represents all columns in one user entry in the users table
@@ -27,9 +28,9 @@ type userWithNulls struct {
 	Notes       sql.NullString
 }
 
-// convertSqlUserToUser handles the internal conversion between an sql row response and a user-friendly User struct
+// convertSQLUserToUser handles the internal conversion between an sql row response and a user-friendly User struct
 // because Go's sql package errors when scanning nil columns in a row
-func convertSqlUserToUser(u userWithNulls) User {
+func convertSQLUserToUser(u userWithNulls) User {
 	var user User
 	if u.ID.Valid {
 		user.ID = int(u.ID.Int64)
@@ -56,7 +57,12 @@ func GetRowsByUsername(username string) ([]User, error) {
 	if err != nil {
 		return users, fmt.Errorf("error querying users table for rows by username \"%s\": %v", username, err)
 	}
-	defer rows.Close()
+	defer func(r *sql.Rows) {
+		err := r.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
+	}(rows)
 
 	for rows.Next() {
 		var uWithNull userWithNulls
@@ -64,7 +70,7 @@ func GetRowsByUsername(username string) ([]User, error) {
 		if err != nil {
 			return users, fmt.Errorf("error scanning row for username \"%s\": %v", username, err)
 		}
-		nonNullUser := convertSqlUserToUser(uWithNull)
+		nonNullUser := convertSQLUserToUser(uWithNull)
 		users = append(users, nonNullUser)
 	}
 	if err := rows.Err(); err != nil {
