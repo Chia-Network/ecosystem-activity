@@ -70,7 +70,7 @@ func createRepoList(cfg config.Config) error {
 
 		for _, r := range repos {
 			if org.ExcludeForks && *r.Fork {
-				log.Infof("skipping %s (FORK)", *r.HTMLURL)
+				log.Debugf("skipping %s (FORK)", *r.HTMLURL)
 				continue
 			}
 			repoList[*r.HTMLURL] = true
