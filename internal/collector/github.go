@@ -107,14 +107,12 @@ func githubRepo(owner string, repo string) {
 				err = users.UpdateFirstCommitByUsername(commitAuthorLogin, commitTimestamp)
 				if err != nil {
 					log.Error(err)
-					continue
 				}
 			}
 			if userRow.LastCommit.Before(commitTimestamp) || userRow.LastCommit.IsZero() {
 				err = users.UpdateLastCommitByUsername(commitAuthorLogin, commitTimestamp)
 				if err != nil {
 					log.Error(err)
-					continue
 				}
 			}
 		}
