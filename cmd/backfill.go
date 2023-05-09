@@ -9,8 +9,6 @@ import (
 	gh "github.com/chia-network/ecosystem-activity/internal/github"
 )
 
-const mysqlDateFormat = "2006-01-02 15:04:05"
-
 // backfillCmd represents the backfill command
 var backfillCmd = &cobra.Command{
 	Use:   "backfill",
@@ -25,7 +23,7 @@ var backfillCmd = &cobra.Command{
 			log.Error(err)
 		}
 
-		rows, err := db.Query("select id, owner, repo from repos where created_at IS NULL or first_commit IS NULL or last_commit IS NULL")
+		rows, err := db.Query("select id, owner, repo from repos where first_commit IS NULL or last_commit IS NULL")
 		if err != nil {
 			log.Fatalf("Error querying repos: %s\n", err.Error())
 		}
@@ -40,25 +38,22 @@ var backfillCmd = &cobra.Command{
 			}
 
 			log.Printf("Looking up data on repo %s/%s\n", owner, repo)
-			repository, _, err := gh.GetRepository(owner, repo)
-			if err != nil {
-				log.Printf("Error getting repository: %s\n", err.Error())
-				continue
-			}
 
-			createdAt := repository.CreatedAt.Format(mysqlDateFormat)
 			firstCommit := getFirstCommit(owner, repo)
 			lastCommit := getLastCommit(owner, repo)
 
-			if createdAt == "" || firstCommit == "" || lastCommit == "" {
+			if firstCommit == "" || lastCommit == "" {
 				continue
 			}
-			_, err = db.Exec("Update repos set created_at = ?, first_commit = ?, last_commit = ? where id = ?", createdAt, firstCommit, lastCommit, id)
+			_, err = db.Exec("Update repos set first_commit = ?, last_commit = ? where id = ?", firstCommit, lastCommit, id)
 			if err != nil {
 				log.Fatalf("Error updating record for %s/%s: %s\n", owner, repo, err.Error())
 			}
 		}
-		rows.Close()
+		err = rows.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
 
 		rows, err = db.Query("select id, username from users where first_commit IS NULL or last_commit IS NULL")
 		if err != nil {
@@ -81,7 +76,10 @@ var backfillCmd = &cobra.Command{
 				log.Fatalf("Error updating record for %s: %s\n", username, err.Error())
 			}
 		}
-		rows.Close()
+		err = rows.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
 	},
 }
 

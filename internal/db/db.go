@@ -56,7 +56,7 @@ func Exec(query string, args ...any) (sql.Result, error) {
 }
 
 func assembleDataSourceName(host, database, user, passwd string) string {
-	return fmt.Sprintf("%s:%s@tcp(%s)/%s", user, passwd, host, database)
+	return fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", user, passwd, host, database)
 }
 
 func initReposTable() error {
@@ -66,7 +66,6 @@ func initReposTable() error {
 		id INT PRIMARY KEY AUTO_INCREMENT,
 		owner VARCHAR(255),
 		repo VARCHAR(255),
-		created_at DATETIME,
 		imported_through DATETIME,
 		first_commit DATETIME,
 		last_commit DATETIME,
@@ -82,9 +81,6 @@ func initUsersTable() error {
 	_, err := db.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS users (
 		id INT PRIMARY KEY AUTO_INCREMENT,
 		username VARCHAR(255) UNIQUE,
-		email VARCHAR(255),
-		name VARCHAR(255),
-		created_at DATETIME,
 		first_commit DATETIME,
 		last_commit DATETIME,
 		notes TEXT

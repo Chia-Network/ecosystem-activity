@@ -32,4 +32,10 @@ At this point just run the following to start the application:
 docker-compose up --build
 ```
 
+NOTE: You may run into issues where just re-upping the collector container isn't good enough. If you suspect you've malformed rows in a table in a previous attempt, spin the containers down first and cull the DB volume with:
+
+```bash
+docker-compose down --volumes
+```
+
 You should see loglines flow in for the collector image to build. Then the mysql database container should start up. Once mysql is ready to accept connections the collector container should start and you'll see logs flow in at a debug level if you didn't change the `ECOSYSTEM_ACTIVITY_LOG_LEVEL` environment variable. If you make changes to the application code, just ctrl+c out of the docker-compose log stream, and re-run `docker-compose up --build` in your shell, and you're off to the races.

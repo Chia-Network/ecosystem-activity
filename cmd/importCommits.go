@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"database/sql"
 	"encoding/csv"
 	"os"
 
@@ -107,7 +108,12 @@ func getCommitAuthorID(username string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	defer result.Close()
+	defer func(*sql.Rows) {
+		err := result.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
+	}(result)
 
 	result.Next()
 	err = result.Scan(&id)
@@ -124,7 +130,12 @@ func getRepoID(owner, repo string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	defer result.Close()
+	defer func(*sql.Rows) {
+		err := result.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
+	}(result)
 
 	result.Next()
 	err = result.Scan(&id)
