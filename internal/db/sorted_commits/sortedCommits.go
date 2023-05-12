@@ -14,11 +14,17 @@ type SortedCommit struct {
 	Date     time.Time
 }
 
-// DeleteAllRecords this function would be called to reset the sorted_commits table for reorganization
-func DeleteAllRecords() error {
+// ResetAllRecords this function would be called to reset the sorted_commits table for reorganization
+// First deletes all rows in the table and then resets the auto_increment counter for the id column
+func ResetAllRecords() error {
 	_, err := db.Exec(`DELETE FROM sorted_commits;`)
 	if err != nil {
 		return fmt.Errorf("error encountered deleting records for sorted_commits table: %v", err)
+	}
+
+	_, err = db.Exec(`ALTER TABLE sorted_commits AUTO_INCREMENT = 1;`)
+	if err != nil {
+		return fmt.Errorf("error encountered reseting auto_increment for sorted_commits table: %v", err)
 	}
 	return nil
 }
