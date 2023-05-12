@@ -30,7 +30,7 @@ type commitWithNulls struct {
 	Notes  sql.NullString
 }
 
-// convertSQLRepoToRepo handles the internal conversion between an sql row response and a user-friendly repo struct
+// convertSQLRepoToRepo handles the internal conversion between an sql row response and a user-friendly commit struct
 // because Go's sql package errors when scanning nil columns in a row
 func convertSQLCommitToCommit(c commitWithNulls) Commit {
 	var commit Commit
@@ -66,10 +66,10 @@ func SetNewRecord(c Commit) error {
 
 // GetAllRows returns the rows in the commits table sorted in ascending order
 func GetAllRowsAscending() ([]Commit, error) {
-	var repos []Commit
+	var commits []Commit
 	rows, err := db.Query("SELECT id,repo_id,user_id,date,sha,notes FROM commits WHERE date IS NOT NULL ORDER BY date ASC")
 	if err != nil {
-		return repos, fmt.Errorf("error querying commits table for rows: %v", err)
+		return commits, fmt.Errorf("error querying commits table for rows: %v", err)
 	}
 	defer func(r *sql.Rows) {
 		err := r.Close()
@@ -82,15 +82,15 @@ func GetAllRowsAscending() ([]Commit, error) {
 		var c commitWithNulls
 		err := rows.Scan(&c.ID, &c.RepoID, &c.UserID, &c.Date, &c.SHA, &c.Notes)
 		if err != nil {
-			return repos, fmt.Errorf("error scanning row for commits table: %v", err)
+			return commits, fmt.Errorf("error scanning row for commits table: %v", err)
 		}
 
 		nonNullRepo := convertSQLCommitToCommit(c)
-		repos = append(repos, nonNullRepo)
+		commits = append(commits, nonNullRepo)
 	}
 	if err := rows.Err(); err != nil {
-		return repos, fmt.Errorf("error encountered iterating through commit rows: %v", err)
+		return commits, fmt.Errorf("error encountered iterating through commit rows: %v", err)
 	}
 
-	return repos, nil
+	return commits, nil
 }

@@ -37,7 +37,7 @@ func SetNewRecord(c SortedCommit) error {
 	}
 	_, err := db.Exec(`INSERT INTO sorted_commits (commit_id,date) VALUES(?, ?);`, c.CommitID, c.Date.Format("2006-01-02 15:04:05"))
 	if err != nil {
-		return fmt.Errorf("error encountered inputting commit to commits table: %v", err)
+		return fmt.Errorf("error encountered inputting commit to sorted_commits table: %v", err)
 	}
 	return nil
 }
