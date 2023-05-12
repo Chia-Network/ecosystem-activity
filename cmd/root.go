@@ -9,6 +9,7 @@ import (
 	"github.com/chia-network/ecosystem-activity/internal/config"
 	"github.com/chia-network/ecosystem-activity/internal/db"
 	gh "github.com/chia-network/ecosystem-activity/internal/github"
+	"github.com/chia-network/ecosystem-activity/internal/sorter"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -33,6 +34,9 @@ var rootCmd = &cobra.Command{
 
 		// Run collector, the main logic loop for this data collector tool
 		go collector.Run(cfg, viper.GetInt("interval"))
+
+		// Schedule sorter for sorted_commits table
+		sorter.Schedule(viper.GetString("sorter-schedule"))
 
 		// Healthcheck handler
 		http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
@@ -68,6 +72,7 @@ func init() {
 	rootCmd.PersistentFlags().String("log-level", "info", "How verbose the logs should be. panic, fatal, error, warn, info, debug, trace (default: info)")
 	rootCmd.PersistentFlags().String("github-token", "", "A GitHub API token")
 	rootCmd.PersistentFlags().Int("interval", 60, "An integer interval duration, specified in minutes, between collector runs")
+	rootCmd.PersistentFlags().String("sorter-schedule", "0 10 * * *", "A cron schedule following the syntax of standard crons with some helpers defined by github.com/robfig/cron")
 	rootCmd.PersistentFlags().String("mysql-host", "", "The hostname to connect to for the mysql db")
 	rootCmd.PersistentFlags().String("mysql-database", "", "The mysql database to use")
 	rootCmd.PersistentFlags().String("mysql-user", "", "A mysql username to authenticate as, requires a password, see the `--mysql-password` flag")
@@ -80,6 +85,11 @@ func init() {
 	}
 
 	err = viper.BindPFlag("interval", rootCmd.PersistentFlags().Lookup("interval"))
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+
+	err = viper.BindPFlag("sorter-schedule", rootCmd.PersistentFlags().Lookup("sorter-schedule"))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

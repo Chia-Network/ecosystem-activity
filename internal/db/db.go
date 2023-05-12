@@ -38,6 +38,10 @@ func Init(host, database, user, passwd string) error {
 	if err != nil {
 		return fmt.Errorf("creating creating commits table (if it didn't exist): %v", err)
 	}
+	err = initSortedCommitsTable()
+	if err != nil {
+		return fmt.Errorf("creating creating sorted_commits table (if it didn't exist): %v", err)
+	}
 
 	log.Debug("Finished creating tables successfully")
 	log.Info("Finished initializing db package successfully")
@@ -100,6 +104,18 @@ func initCommitsTable() error {
 		notes TEXT,
 		FOREIGN KEY (repo_id) REFERENCES repos(id),
 		FOREIGN KEY (user_id) REFERENCES users(id)
+	);`)
+	return err
+}
+
+func initSortedCommitsTable() error {
+	ctx, cancelFunc := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancelFunc()
+	_, err := db.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS sorted_commits (
+		id INT PRIMARY KEY AUTO_INCREMENT,
+		commit_id INT,
+		date DATETIME,
+		FOREIGN KEY (commit_id) REFERENCES commits(id)
 	);`)
 	return err
 }
