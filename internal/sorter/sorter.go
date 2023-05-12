@@ -22,7 +22,7 @@ func Schedule(schedule string) {
 		// Deletes all records in the sorted commits table
 		// This is obviously an operation that can't be reversed except with an import,
 		// the loop below should re-add the rows in the correct order
-		err = sortedcommits.DeleteAllRecords()
+		err = sortedcommits.ResetAllRecords()
 		if err != nil {
 			log.Error(err)
 			return

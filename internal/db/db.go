@@ -115,7 +115,7 @@ func initSortedCommitsTable() error {
 		id INT PRIMARY KEY AUTO_INCREMENT,
 		commit_id INT,
 		date DATETIME,
-		FOREIGN KEY (commit_id) REFERENCES commit(id)
+		FOREIGN KEY (commit_id) REFERENCES commits(id)
 	);`)
 	return err
 }
