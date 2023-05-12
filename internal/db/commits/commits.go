@@ -64,7 +64,7 @@ func SetNewRecord(c Commit) error {
 	return nil
 }
 
-// GetAllRows returns the rows in the commits table sorted in ascending order
+// GetAllRowsAscending returns the rows in the commits table sorted in ascending order
 func GetAllRowsAscending() ([]Commit, error) {
 	var commits []Commit
 	rows, err := db.Query("SELECT id,repo_id,user_id,date,sha,notes FROM commits WHERE date IS NOT NULL ORDER BY date ASC")
