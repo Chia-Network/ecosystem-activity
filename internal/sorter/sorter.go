@@ -29,7 +29,7 @@ func RunSortedCommits() {
 		return
 	}
 
-	log.Debugf("Found %d commits to add to the sorted_commits table")
+	log.Debugf("Found %d commits to add to the sorted_commits table", len(allCommitsAsc))
 
 	// Deletes all records in the sorted commits table
 	// This is obviously an operation that can't be reversed except with an import,
