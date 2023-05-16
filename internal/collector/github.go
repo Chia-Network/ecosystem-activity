@@ -2,24 +2,17 @@ package collector
 
 import (
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/chia-network/ecosystem-activity/internal/db/commits"
 	"github.com/chia-network/ecosystem-activity/internal/db/repos"
 	"github.com/chia-network/ecosystem-activity/internal/db/users"
 	gh "github.com/chia-network/ecosystem-activity/internal/github"
+	"github.com/chia-network/ecosystem-activity/internal/utils"
 
 	"github.com/google/go-github/v52/github"
 	log "github.com/sirupsen/logrus"
 )
-
-// bots is used to match usernames to likely bots, and skips their commit data
-var bots = []string{
-	"-bot",
-	"[bot]",
-	"ChiaAutomation",
-}
 
 // A github repo was identified, will query commit data using the github API
 func githubRepo(owner string, repo string) {
@@ -92,7 +85,7 @@ func githubRepo(owner string, repo string) {
 			log.Errorf("commit data was not nil but no author login returned from API for repo %s, sha %s: %v", ownerRepoString, commitSHA, err)
 			continue
 		}
-		if isPossibleBot := matchesBot(commitAuthorLogin); isPossibleBot {
+		if isPossibleBot := utils.MatchesBot(commitAuthorLogin); isPossibleBot {
 			// Skip this commit since it matched a bot account username matcher
 			continue
 		}
@@ -189,16 +182,6 @@ func githubRepo(owner string, repo string) {
 		log.Error(err)
 		return
 	}
-}
-
-// matchesBot matches common bot names since we don't care for bot users in our data
-func matchesBot(uname string) bool {
-	for _, botMatcher := range bots {
-		if strings.Contains(strings.ToLower(uname), strings.ToLower(botMatcher)) {
-			return true
-		}
-	}
-	return false
 }
 
 // getUserRow looks up a user by username in the users table.

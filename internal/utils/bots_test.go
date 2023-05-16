@@ -1,4 +1,4 @@
-package collector
+package utils
 
 import "testing"
 
@@ -12,7 +12,7 @@ func TestMatchBot(t *testing.T) {
 	}
 	for testName, expect := range tests {
 		t.Log(testName)
-		result := matchesBot(testName)
+		result := MatchesBot(testName)
 		if result != expect {
 			t.Errorf("Result fail for name %s", testName)
 		}

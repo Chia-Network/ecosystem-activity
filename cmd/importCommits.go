@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/chia-network/ecosystem-activity/internal/db"
+	"github.com/chia-network/ecosystem-activity/internal/utils"
 )
 
 var (
@@ -28,16 +29,6 @@ IDs from that table based on the Owner and Repository fields in the CSV.
 CSV is expected to have the following fields:
 Owner,Repository,Commit Author, Commit SHA, Commit Date`,
 	Run: func(cmd *cobra.Command, args []string) {
-		ignoreUsers := map[string]bool{
-			"dependabot[bot]":           true,
-			"github-actions[bot]":       true,
-			"ChiaAutomation":            true,
-			"renovate[bot]":             true,
-			"mend-bolt-for-github[bot]": true,
-			"deepsource-autofix[bot]":   true,
-			"hercules-ci[bot]":          true,
-		}
-
 		// Init db package
 		err := db.Init(viper.GetString("mysql-host"), viper.GetString("mysql-database"), viper.GetString("mysql-user"), viper.GetString("mysql-password"))
 		if err != nil {
@@ -72,7 +63,8 @@ Owner,Repository,Commit Author, Commit SHA, Commit Date`,
 			commitSHA := line[3]
 			commitDate := line[4]
 
-			if ignoreUsers[commitAuthor] {
+			if isPossibleBot := utils.MatchesBot(commitAuthor); isPossibleBot {
+				// Skip this commit since it matched a bot account username matcher
 				continue
 			}
 
