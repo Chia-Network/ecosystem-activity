@@ -10,7 +10,7 @@ import (
 
 // adhocSortedCommitsCmd represents the adhocSortedCommits command
 var adhocSortedCommitsCmd = &cobra.Command{
-	Use:   "import-commits",
+	Use:   "adhoc-sorted-commits",
 	Short: "Runs the sorted commits function ad-hoc",
 	Long: `Run an ad-hoc iteration of the sorted commits function.
 
