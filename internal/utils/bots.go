@@ -7,6 +7,7 @@ var Bots = []string{
 	"-bot",
 	"[bot]",
 	"ChiaAutomation",
+	"deepsourcebot",
 }
 
 // MatchesBot matches common bot names since we don't care for bot users in our data
