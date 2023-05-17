@@ -85,12 +85,54 @@ func GetAllRowsAscending() ([]Commit, error) {
 			return commits, fmt.Errorf("error scanning row for commits table: %v", err)
 		}
 
-		nonNullRepo := convertSQLCommitToCommit(c)
-		commits = append(commits, nonNullRepo)
+		nonNullCommit := convertSQLCommitToCommit(c)
+		commits = append(commits, nonNullCommit)
 	}
 	if err := rows.Err(); err != nil {
 		return commits, fmt.Errorf("error encountered iterating through commit rows: %v", err)
 	}
 
 	return commits, nil
+}
+
+// GetAllRowsByUserID returns the rows in the commits table that belong to a specific user ID
+func GetAllRowsByUserID(uid int) ([]Commit, error) {
+	var commits []Commit
+	rows, err := db.Query("SELECT id,repo_id,user_id,date,sha,notes FROM commits WHERE user_id = ?", uid)
+	if err != nil {
+		return commits, fmt.Errorf("error querying commits table for rows: %v", err)
+	}
+	defer func(r *sql.Rows) {
+		err := r.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
+	}(rows)
+
+	for rows.Next() {
+		var c commitWithNulls
+		err := rows.Scan(&c.ID, &c.RepoID, &c.UserID, &c.Date, &c.SHA, &c.Notes)
+		if err != nil {
+			return commits, fmt.Errorf("error scanning row for commits table: %v", err)
+		}
+
+		nonNullCommit := convertSQLCommitToCommit(c)
+		commits = append(commits, nonNullCommit)
+	}
+	if err := rows.Err(); err != nil {
+		return commits, fmt.Errorf("error encountered iterating through commit rows: %v", err)
+	}
+
+	return commits, nil
+}
+
+// DeleteRow deletes one row in the commits table by ID
+// this will only be used to delete bot user activity once detected
+func DeleteRow(id int) error {
+	_, err := db.Exec(`DELETE FROM commits WHERE id = ?;`, id)
+	if err != nil {
+		return fmt.Errorf("error encountered deleting row for commits table: %v", err)
+	}
+
+	return nil
 }
