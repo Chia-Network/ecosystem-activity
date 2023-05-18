@@ -41,3 +41,14 @@ func SetNewRecord(c SortedCommit) error {
 	}
 	return nil
 }
+
+// DeleteRow deletes one row in the sorted_commits table by special commit_id (foreign key to commits table)
+// this will only be used to delete bot user activity once detected
+func DeleteRow(id int) error {
+	_, err := db.Exec(`DELETE FROM sorted_commits WHERE commit_id = ?;`, id)
+	if err != nil {
+		return fmt.Errorf("error encountered deleting row for sorted_commits table: %v", err)
+	}
+
+	return nil
+}

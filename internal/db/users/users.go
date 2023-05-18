@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/chia-network/ecosystem-activity/internal/db"
+	"github.com/chia-network/ecosystem-activity/internal/utils"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -106,4 +107,59 @@ func UpdateFirstCommitByUsername(username string, ts time.Time) error {
 		return fmt.Errorf("error encountered updating first_commit on row for %s: %v", username, err)
 	}
 	return err
+}
+
+// GetBotUserRows gets a slice of rows matching possible bot matchers
+func GetBotUserRows() ([]User, error) {
+	var users []User
+	rows, err := db.Query(fmt.Sprintf("SELECT id,username,first_commit,last_commit,notes FROM users WHERE %s", getBotLikes(utils.Bots)))
+	if err != nil {
+		return users, fmt.Errorf("error querying users table for rows for possible bots: %v", err)
+	}
+	defer func(r *sql.Rows) {
+		err := r.Close()
+		if err != nil {
+			log.Errorf("error closing sql rows: %v", err)
+		}
+	}(rows)
+
+	for rows.Next() {
+		var uWithNull userWithNulls
+		err := rows.Scan(&uWithNull.ID, &uWithNull.Username, &uWithNull.FirstCommit, &uWithNull.LastCommit, &uWithNull.Notes)
+		if err != nil {
+			return users, fmt.Errorf("error scanning row for possible bots: %v", err)
+		}
+		nonNullUser := convertSQLUserToUser(uWithNull)
+		users = append(users, nonNullUser)
+	}
+	if err := rows.Err(); err != nil {
+		return users, fmt.Errorf("error encountered iterating through rows for possible bots: %v", err)
+	}
+
+	return users, nil
+}
+
+// DeleteRow deletes one row in the users table by ID
+// this will only be used to delete bot user activity once detected
+func DeleteRow(id int) error {
+	_, err := db.Exec(`DELETE FROM users WHERE id = ?;`, id)
+	if err != nil {
+		return fmt.Errorf("error encountered deleting row for users table: %v", err)
+	}
+
+	return nil
+}
+
+// helper function to turn a slice of partial string matchers into a formatted sql WHERE clause
+func getBotLikes(botMatchers []string) string {
+	var r string
+
+	for i, botLike := range botMatchers {
+		if i != 0 {
+			r = fmt.Sprintf("%s OR ", r)
+		}
+		r = fmt.Sprintf("%susername LIKE '%%%s%%'", r, botLike)
+	}
+
+	return r
 }
