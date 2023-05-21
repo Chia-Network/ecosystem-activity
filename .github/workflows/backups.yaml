@@ -1,0 +1,75 @@
+name: Manage bucket and backup repos
+
+on:
+  push:
+    branches:
+      - "main"
+  schedule:
+    - cron: '00 0,12 * * *'
+
+permissions:
+  id-token: write
+  contents: read
+  actions: write
+
+jobs:
+  create-bucket:
+    runs-on: [k8s-internal]
+    container:
+      image: hashicorp/terraform:latest
+      options: --entrypoint /bin/sh
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Vault Login
+        uses: Chia-Network/actions/vault/login@main
+        with:
+          vault_url: ${{ secrets.VAULT_URL }}
+          role_name: github
+
+      - name: Get ephemeral aws credentials
+        uses: Chia-Network/actions/vault/aws-sts@main
+        with:
+          vault_url: ${{ secrets.VAULT_URL }}
+          vault_token: ${{ env.VAULT_TOKEN }}
+          role_name: bootstrap
+
+      - uses: Chia-Network/actions/terraform/apply@main
+        with:
+          workspace: default
+          varfile: /dev/null
+          terraform_dir: backups/terraform
+
+  backup-repos:
+    needs: create-bucket
+    runs-on: [k8s-internal]
+    container: alpine:latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Vault Login
+        uses: Chia-Network/actions/vault/login@main
+        with:
+          vault_url: ${{ secrets.VAULT_URL }}
+          role_name: github
+
+      - name: Get secrets from vault
+        uses: hashicorp/vault-action@v2
+        with:
+          url: ${{ secrets.VAULT_URL }}
+          token: ${{ env.VAULT_TOKEN }}
+          secrets: |
+            secret/data/github_users/chiaautomation/repo-backups-s3 username | GH_USER;
+            secret/data/github_users/chiaautomation/repo-backups-s3 password | GH_TOKEN;
+
+      - name: Get ephemeral aws credentials
+        uses: Chia-Network/actions/vault/aws-sts@main
+        with:
+          vault_url: ${{ secrets.VAULT_URL }}
+          vault_token: ${{ env.VAULT_TOKEN }}
+          role_name: github-repo-backups-s3-upload
+
+      - name: Run the script
+        run: |
+          apk add bash aws-cli git curl
+          /bin/bash ./backups/backup.sh
