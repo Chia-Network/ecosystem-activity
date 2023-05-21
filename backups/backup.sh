@@ -26,7 +26,7 @@ for repo in "${repositories[@]}"; do
 
 	echo "Copying ${repository} to S3"
 	tar czf "${repository}.git.tar.gz" "${repository}.git"
-	#aws s3 mv "${repository}.git.tar.gz" "${AWS_S3_BUCKET}/${repository}.git.tar.gz"
+	aws s3 mv "${repository}.git.tar.gz" "${AWS_S3_BUCKET}/${repository}.git.tar.gz"
 	rm -r "${repository}.git"
 
 	echo "Checking for existence of a wiki repo for ${repository}"
@@ -35,7 +35,7 @@ for repo in "${repositories[@]}"; do
 	if [ -d "${repository}.wiki.git" ]; then
 		echo "Copying ${repository}.wiki to S3"
 		tar czf "${repository}.wiki.git.tar.gz" "${repository}.wiki.git"
-		#aws s3 mv "${repository}.wiki.git.tar.gz" "${AWS_S3_BUCKET}/${repository}.wiki.git.tar.gz"
+		aws s3 mv "${repository}.wiki.git.tar.gz" "${AWS_S3_BUCKET}/${repository}.wiki.git.tar.gz"
 		rm -r "${repository}.wiki.git"
 	fi
 done

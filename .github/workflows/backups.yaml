@@ -71,5 +71,5 @@ jobs:
 
       - name: Run the script
         run: |
-          apk add bash aws-cli git curl
+          apk add bash aws-cli git curl yq
           /bin/bash ./backups/backup.sh
