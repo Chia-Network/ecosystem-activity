@@ -27,17 +27,7 @@ for repo in "${repositories[@]}"; do
   if [ -d "${repository}.git" ]; then
     echo "Copying ${repository} to S3"
     tar czf "${repository}.git.tar.gz" "${repository}.git"
-    aws s3 mv "${repository}.git.tar.gz" "${AWS_S3_BUCKET}/${repository}.git.tar.gz"
+    aws s3 mv "${repository}.git.tar.gz" "${AWS_S3_BUCKET}/${organization}_${repository}.git.tar.gz"
     rm -r "${repository}.git"
-
-    echo "Checking for existence of a wiki repo for ${repository}"
-    clone_url="https://${GH_TOKEN}@github.com/${organization}/${repository}.wiki.git"
-    git clone --mirror "${clone_url}" || true # Ignore errors here if wiki does not exist
-    if [ -d "${repository}.wiki.git" ]; then
-      echo "Copying ${repository}.wiki to S3"
-      tar czf "${repository}.wiki.git.tar.gz" "${repository}.wiki.git"
-      aws s3 mv "${repository}.wiki.git.tar.gz" "${AWS_S3_BUCKET}/${repository}.wiki.git.tar.gz"
-      rm -r "${repository}.wiki.git"
-    fi
   fi
 done
