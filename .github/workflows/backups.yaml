@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
   schedule:
-    - cron: '00 0,12 * * *'
+    - cron: '00 0 * * 1'
 
 permissions:
   id-token: write
