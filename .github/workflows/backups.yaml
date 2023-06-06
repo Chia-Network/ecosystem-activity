@@ -68,6 +68,7 @@ jobs:
           vault_url: ${{ secrets.VAULT_URL }}
           vault_token: ${{ env.VAULT_TOKEN }}
           role_name: github-repo-backups-s3-upload
+          ttl: 10800s
 
       - name: Run the script
         run: |
