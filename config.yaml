@@ -468,6 +468,7 @@ individual_repositories:
   - https://github.com/stefan-lange/chia-farm-dashboard
   - https://github.com/stefan-lange/chia-price-exporter
   - https://github.com/steppsr/brighttree
+  - https://github.com/steppsr/discord-faucet-bot
   - https://github.com/steppsr/droid_name_generator
   - https://github.com/steppsr/exif2metadata-proofofconcept
   - https://github.com/steppsr/GetNFTIDsFromCollection
