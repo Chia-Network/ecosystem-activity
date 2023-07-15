@@ -32,7 +32,7 @@ jobs:
         with:
           vault_url: ${{ secrets.VAULT_URL }}
           vault_token: ${{ env.VAULT_TOKEN }}
-          role_name: bootstrap
+          role_name: bucket-create
 
       - uses: Chia-Network/actions/terraform/apply@main
         with:
