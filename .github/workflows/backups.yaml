@@ -25,7 +25,7 @@ jobs:
         uses: Chia-Network/actions/vault/login@main
         with:
           vault_url: ${{ secrets.VAULT_URL }}
-          role_name: github
+          role_name: github-ecosystem-activity
 
       - name: Get ephemeral aws credentials
         uses: Chia-Network/actions/vault/aws-sts@main
@@ -51,7 +51,7 @@ jobs:
         uses: Chia-Network/actions/vault/login@main
         with:
           vault_url: ${{ secrets.VAULT_URL }}
-          role_name: github
+          role_name: github-ecosystem-activity
 
       - name: Get secrets from vault
         uses: hashicorp/vault-action@v2
