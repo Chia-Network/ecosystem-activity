@@ -346,6 +346,7 @@ individual_repositories:
   - https://github.com/Miahelloworld/chia-blockchain-discord-server
   - https://github.com/mintgarden-io/mintgarden-studio
   - https://github.com/mintgarden-io/nft-companion
+  - https://github.com/mintgarden-io/vault-plugin-secrets-bls
   - https://github.com/mitchweaver/chia
   - https://github.com/mizuki-momose/chia-plotter-with-scpm
   - https://github.com/mjsr/chia-architecture
