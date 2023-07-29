@@ -135,6 +135,7 @@ individual_repositories:
   - https://github.com/dkackman/chia-dotnet
   - https://github.com/dkackman/chia-repl
   - https://github.com/dkackman/rchia
+  - https://github.com/dkackman/swap-utils
   - https://github.com/dmiczek-dev/chia-store
   - https://github.com/dolguin-/chia-k8s
   - https://github.com/drakoswraith/dragonsalad
