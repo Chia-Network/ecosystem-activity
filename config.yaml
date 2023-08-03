@@ -24,12 +24,15 @@ individual_repositories:
   - https://github.com/ageorge95/SERPENT-chia-offline-transaction-sign-and-send
   - https://github.com/ageorge95/slingSHOT-ChiaPlotTransfer
   - https://github.com/ageorge95/TOMATO-simple-chia-forks-NFT-recovery
+  - https://github.com/ageorge95/WILLOW-chia-forks-instant-wallet-balance
   - https://github.com/Ahsoka/loki
   - https://github.com/alexander-e-andrews/ChiaPlotManager
   - https://github.com/amccarthy9904/chia_script
   - https://github.com/AMeraj-1/CHIA_Plot_Replacing_Script
   - https://github.com/amirhh00/chia-telegram-bot
   - https://github.com/amnesia106/moneymoneychia
+  - https://github.com/andyharless/chia-bash
+  - https://github.com/andyharless/ngdplt_cat
   - https://github.com/ant013/crypto-bls-ios
   - https://github.com/anyplots/cloud-chia-plotter
   - https://github.com/Apool-us/Chia-Client
@@ -279,6 +282,7 @@ individual_repositories:
   - https://github.com/JustMeROMs/MadMaxie_GUI
   - https://github.com/Kayuii/chia-plotter
   - https://github.com/Kayuii/hpool-miner
+  - https://github.com/kevinfantasy2008/chia-plot
   - https://github.com/KevinOnFrontEnd/SpaceCAT
   - https://github.com/KevinOnFrontEnd/SwapHunter
   - https://github.com/KevinOnFrontEnd/Tibby
@@ -300,7 +304,9 @@ individual_repositories:
   - https://github.com/KunaniGaming/petbatchfiles
   - https://github.com/kurefm/gochia
   - https://github.com/L4bb3rs/Chia-CAT-Breakdown
+  - https://github.com/L4bb3rs/Chia-CATS-Sent-to-Bags
   - https://github.com/L4bb3rs/Chia-CAT-Send-to-List
+  - https://github.com/L4bb3rs/Chia_NFT_Helper
   - https://github.com/L4bb3rs/Chia-Py-RPC
   - https://github.com/Laisho-N/CHIA
   - https://github.com/LeastAuthority/Chia-Network-chia-blockchain
@@ -349,6 +355,13 @@ individual_repositories:
   - https://github.com/merakmarey/madFurry
   - https://github.com/metalfacesec/chia-javascript
   - https://github.com/Miahelloworld/chia-blockchain-discord-server
+  - https://github.com/MichaelTaylor3D/ChiaHttpServer
+  - https://github.com/MichaelTaylor3D/ChiaSocial
+  - https://github.com/MichaelTaylor3D/ChiaWeb2Gateway
+  - https://github.com/MichaelTaylor3D/ChiaQL
+  - https://github.com/MichaelTaylor3D/DLaaS
+  - https://github.com/mindspice/Chia_Helper_Scripts
+  - https://github.com/mindspice/JXCH-RPC-Library
   - https://github.com/mintgarden-io/mintgarden-studio
   - https://github.com/mintgarden-io/nft-companion
   - https://github.com/mintgarden-io/vault-plugin-secrets-bls
@@ -379,6 +392,7 @@ individual_repositories:
   - https://github.com/NFTr/nft_scripts
   - https://github.com/ngyygm/chia-plot-copy
   - https://github.com/nmarley/js-bls-signatures-playground
+  - https://github.com/nongyehezuoshe/bech32m-chia
   - https://github.com/nongyen/Chia-Smart-Duo-Node
   - https://github.com/ocruzv/chia-plot-manager
   - https://github.com/offerpool/offerpool
@@ -437,6 +451,7 @@ individual_repositories:
   - https://github.com/rocketeeer/chialisp-testing
   - https://github.com/romanlegeza/chia-hpool-checker
   - https://github.com/RootLUG/chia_smoothie
+  - https://github.com/roseiliend/TsunamiProtocol
   - https://github.com/roybotbot/roybotNFT-Minter
   - https://github.com/rtm125/chiahealthchecker
   - https://github.com/RudolfAchter/ChiaShell
@@ -575,9 +590,11 @@ individual_repositories:
   - https://github.com/Yakuhito/yakuSwap-server
   - https://github.com/yan74/chiahub-monitor
   - https://github.com/ychang-cn/ChiaPlotter
+  - https://github.com/ydipeepo/chia-k8s
   - https://github.com/ydipeepo/nvme-mate
   - https://github.com/ydipeepo/rpi-hpool-chia-miner
   - https://github.com/yogahariman/My_Chia
+  - https://github.com/Yostra/marmot_minter
   - https://github.com/yrjo/chia-container
   - https://github.com/ytx1991/chia-plotter-compiled
   - https://github.com/ytx1991/ChiaHeadsOrTails
@@ -644,7 +661,6 @@ individual_repositories:
   - https://github.com/mpwsh/chia-models-rs
   - https://github.com/mpwsh/chia-node-rs
   - https://github.com/mx-pool/super-farmer
-  - https://github.com/nongyehezuoshe/bech32m-chia
   - https://github.com/Open-Market-Dev-Club/spriggan-client
   - https://github.com/Open-Market-Dev-Club/spriggan-client-gui
   - https://github.com/Open-Market-Dev-Club/spriggan-library-dapp
@@ -664,4 +680,7 @@ individual_repositories:
   - https://github.com/wallentx/chia-extension
   - https://github.com/xorde-labs/docker-chia-node
   - https://github.com/Yakuhito/tibet
+  - https://github.com/Yakuhito/tibet-analytics
+  - https://github.com/Yakuhito/tibet-ui
   - https://github.com/ytx1991/ChiaSimplePlotter
+  - https://github.com/999cross999/hiveos-hpool-chia
