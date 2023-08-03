@@ -427,6 +427,10 @@ individual_repositories:
   - https://github.com/revantjhalani/sots-plot-manager
   - https://github.com/rfalex11/chia-lessons-learned
   - https://github.com/rHilkner/chia
+  - https://github.com/richardkiss/chialisp_builder
+  - https://github.com/richardkiss/chialisp_loader
+  - https://github.com/richardkiss/chialisp_puzzles
+  - https://github.com/richardkiss/chialisp_stdlib  
   - https://github.com/richardkiss/chiaswap
   - https://github.com/ricky/chia-overlay
   - https://github.com/Rigidity/bls-signatures
