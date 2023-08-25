@@ -100,6 +100,9 @@ individual_repositories:
   - https://github.com/chuwt/chia-tx
   - https://github.com/chuwt/dive-into-chia
   - https://github.com/cielu/chia-rpc-go
+  - https://github.com/circuitdao/chia-balance
+  - https://github.com/circuitdao/python-chianode
+  - https://github.com/circuitdao/python-okx-async
   - https://github.com/clls-dev/clls
   - https://github.com/CMEONE/chia-utils
   - https://github.com/cmmarslender/go-chia-rpc
