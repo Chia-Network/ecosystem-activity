@@ -211,6 +211,7 @@ individual_repositories:
   - https://github.com/geoffwalmsley/clsp-template
   - https://github.com/geraldneale/blink_mojo
   - https://github.com/geraldneale/chia-nft-add_uris
+  - https://github.com/geraldneale/pyramid_coin
   - https://github.com/geraldneale/py-blink_mojo-secure
   - https://github.com/geraldneale/py-chialisp-inner_outer
   - https://github.com/ggwilly/ChiaScripts
