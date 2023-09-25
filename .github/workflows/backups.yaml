@@ -1,9 +1,6 @@
 name: Manage bucket and backup repos
 
 on:
-  push:
-    branches:
-      - "main"
   schedule:
     - cron: '00 0 * * 1'
 
