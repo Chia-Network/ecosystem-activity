@@ -53,6 +53,7 @@ individual_repositories:
   - https://github.com/BrooksYang/chia-api
   - https://github.com/bteehub/Chia
   - https://github.com/BubbleTrouble14/Chia-Address-Balance
+  - https://github.com/BubbleTrouble14/react-native-bls-signatures
   - https://github.com/BubbleTrouble14/webserver-docker
   - https://github.com/ByronAP/ChiaApi
   - https://github.com/c0decave/chia_network
