@@ -290,6 +290,7 @@ individual_repositories:
   - https://github.com/Kayuii/chia-plotter
   - https://github.com/Kayuii/hpool-miner
   - https://github.com/kevinfantasy2008/chia-plot
+  - https://github.com/KevinOnFrontEnd/clvm-dotnet
   - https://github.com/KevinOnFrontEnd/SpaceCAT
   - https://github.com/KevinOnFrontEnd/SwapHunter
   - https://github.com/KevinOnFrontEnd/Tibby
@@ -388,7 +389,9 @@ individual_repositories:
   - https://github.com/Mywifi/plot-monitor
   - https://github.com/Nam-K/Chia_Network.Tools
   - https://github.com/namelessperson0/chia-wallet
+  - https://github.com/navroudsari/chia_bls_dart
   - https://github.com/navroudsari/chia_client
+  - https://github.com/navroudsari/java-bls-chia
   - https://github.com/nemothenoone/chia_network.nemo1369-vdf-track2
   - https://github.com/neuronull/chia-plotmover-rs
   - https://github.com/neurosis69/chia-sync-data
