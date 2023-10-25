@@ -85,6 +85,7 @@ individual_repositories:
   - https://github.com/Chia-Rio/Hpool-miner-autostart
   - https://github.com/chia-toolkit/curl
   - https://github.com/ChiaChat/chialisp-gradle-plugin
+  - https://github.com/chiachat/kbls
   - https://github.com/ChiaChat/kchia
   - https://github.com/chiadoge/chiadoge
   - https://github.com/chiafactory/plotorder
