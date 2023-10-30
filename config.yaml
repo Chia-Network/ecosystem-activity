@@ -371,6 +371,7 @@ individual_repositories:
   - https://github.com/MichaelTaylor3D/DLaaS
   - https://github.com/mindspice/Chia_Helper_Scripts
   - https://github.com/mindspice/JXCH-RPC-Library
+  - https://github.com/mindspice/jxch-transact-framework
   - https://github.com/mintgarden-io/mintgarden-studio
   - https://github.com/mintgarden-io/nft-companion
   - https://github.com/mintgarden-io/vault-plugin-secrets-bls
