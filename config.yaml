@@ -198,6 +198,7 @@ individual_repositories:
   - https://github.com/freddiecoleman/docker-chia
   - https://github.com/freddiecoleman/marmotcore-client
   - https://github.com/freddiecoleman/marmotcore-terraform-provider
+  - https://github.com/GalactechsLLC/dg_fast_farmer
   - https://github.com/GalactechsLLC/dg_xch_utils
   - https://github.com/GalactechsLLC/DruidGardenBase
   - https://github.com/GalactechsLLC/DruidGardenChiaPool
