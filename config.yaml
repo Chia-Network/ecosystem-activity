@@ -35,6 +35,7 @@ individual_repositories:
   - https://github.com/andyharless/ngdplt_cat
   - https://github.com/ant013/crypto-bls-ios
   - https://github.com/anyplots/cloud-chia-plotter
+  - https://github.com/apkjet/xchinscription
   - https://github.com/Apool-us/Chia-Client
   - https://github.com/arborwallet/arbor-wallet
   - https://github.com/arborwallet/arbor-wallet-discord-bot
@@ -521,6 +522,7 @@ individual_repositories:
   - https://github.com/steppsr/MyNFTIDs
   - https://github.com/steppsr/nftstorage-proofofconcept
   - https://github.com/steppsr/norby_name_generator
+  - https://github.com/steppsr/offerco.de
   - https://github.com/steppsr/OwnerWalletsFromNFTIDs
   - https://github.com/steppsr/random_name_picker
   - https://github.com/steppsr/txch-faucet
