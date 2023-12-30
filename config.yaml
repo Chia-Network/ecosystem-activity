@@ -129,6 +129,13 @@ individual_repositories:
   - https://github.com/danbembower/ChiaPlottingGroupStarter
   - https://github.com/danieljperry/LeaveALegacy
   - https://github.com/DaOneLuna/auto-chia-wallet
+  - https://github.com/Datalayer-Storage/chia-server-coin-cli
+  - https://github.com/Datalayer-Storage/DataLayerStorageUploadPlugin-debian
+  - https://github.com/Datalayer-Storage/DataLayerStorageUploadPlugin-Win64
+  - https://github.com/Datalayer-Storage/Decentralized-Internet-Gateway
+  - https://github.com/Datalayer-Storage/MirrorManager
+  - https://github.com/Datalayer-Storage/MirrorSync
+  - https://github.com/Datalayer-Storage/Web2Gateway
   - https://github.com/Dartellum/chia-madmax-plot_loop
   - https://github.com/dazeb/The-Chia-Farmer
   - https://github.com/deatheibon/cmk_chia
