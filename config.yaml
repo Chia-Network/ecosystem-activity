@@ -142,6 +142,9 @@ individual_repositories:
   - https://github.com/delucca-archive/chia-seeder
   - https://github.com/Dennis1000/chia-blockchain-checkmk
   - https://github.com/Dev-Power/monitoring-chia-spacepool
+  - https://github.com/dexie-space/blocklist
+  - https://github.com/dexie-space/dexie-rewards
+  - https://github.com/dexie-space/splash
   - https://github.com/DiaVoLuX/GreeNTools
   - https://github.com/distoration/AutoDisker-0.1v-PYTHON
   - https://github.com/distoration/chia-network-MY-WEBSITE
