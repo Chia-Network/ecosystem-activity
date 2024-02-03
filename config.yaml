@@ -378,11 +378,24 @@ individual_repositories:
   - https://github.com/merakmarey/madFurry
   - https://github.com/metalfacesec/chia-javascript
   - https://github.com/Miahelloworld/chia-blockchain-discord-server
+  - https://github.com/MichaelTaylor3D/ChiaChangeListChunks
   - https://github.com/MichaelTaylor3D/ChiaHttpServer
+  - https://github.com/MichaelTaylor3D/ChiaQL
   - https://github.com/MichaelTaylor3D/ChiaSocial
   - https://github.com/MichaelTaylor3D/ChiaSproutCli
   - https://github.com/MichaelTaylor3D/ChiaWeb2Gateway
-  - https://github.com/MichaelTaylor3D/ChiaQL
+  - https://github.com/MichaelTaylor3D/chia-changelist-generator
+  - https://github.com/MichaelTaylor3D/chia-condition-codes
+  - https://github.com/MichaelTaylor3D/chia-config-loader
+  - https://github.com/MichaelTaylor3D/chia-datalayer-filesystem
+  - https://github.com/MichaelTaylor3D/chia-datalayer-fs-deploy
+  - https://github.com/MichaelTaylor3D/chia-datalayer-kv-cache
+  - https://github.com/MichaelTaylor3D/chia-datalayer-mirror-tools
+  - https://github.com/MichaelTaylor3D/chia-datalayer-update-notifier
+  - https://github.com/MichaelTaylor3D/chia-fee-estimator
+  - https://github.com/MichaelTaylor3D/chia-root-resolver
+  - https://github.com/MichaelTaylor3D/chia-service-connector
+  - https://github.com/MichaelTaylor3D/chia-wallet
   - https://github.com/MichaelTaylor3D/DLaaS
   - https://github.com/mindspice/Chia_Helper_Scripts
   - https://github.com/mindspice/JXCH-RPC-Library
