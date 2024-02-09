@@ -507,7 +507,9 @@ individual_repositories:
   - https://github.com/scotopic/silo-wallet
   - https://github.com/Scribbd/tropical-chia
   - https://github.com/scrutinously/chia-scripts
+  - https://github.com/scrutinously/key-generator
   - https://github.com/scrutinously/smart-farm
+  - https://github.com/scrutinously/wallet-tools
   - https://github.com/sengexyz/EzPlotter
   - https://github.com/serpent213/fsum
   - https://github.com/setar/chia-farm-tools
