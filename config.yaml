@@ -403,6 +403,7 @@ individual_repositories:
   - https://github.com/mindspice/jxch-transact-framework
   - https://github.com/mintgarden-io/mintgarden-studio
   - https://github.com/mintgarden-io/nft-companion
+  - https://github.com/mintgarden-io/secure-the-mint
   - https://github.com/mintgarden-io/vault-plugin-secrets-bls
   - https://github.com/mitchweaver/chia
   - https://github.com/mizuki-momose/chia-plotter-with-scpm
