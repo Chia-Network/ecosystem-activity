@@ -738,4 +738,5 @@ individual_repositories:
   - https://github.com/ytx1991/ChiaSimplePlotter
   - https://github.com/999cross999/hiveos-hpool-chia
   - https://github.com/farmerdiamonds/splash-nodejs
-  - https://github.com/warpdotgreen
+  - https://github.com/warpdotgreen/bridge
+  - https://github.com/warpdotgreen/bridge-ui
