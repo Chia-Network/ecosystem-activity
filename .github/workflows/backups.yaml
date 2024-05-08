@@ -16,7 +16,7 @@ jobs:
       image: hashicorp/terraform:latest
       options: --entrypoint /bin/sh
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Vault Login
         uses: Chia-Network/actions/vault/login@main
@@ -42,7 +42,7 @@ jobs:
     runs-on: [k8s-public]
     container: alpine:latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Vault Login
         uses: Chia-Network/actions/vault/login@main
