@@ -97,9 +97,9 @@ jobs:
           token: ${{ env.VAULT_TOKEN }}
           secrets: |
             secret/data/github_users/chiaautomation/ecosystem-activity token | ECOSYSTEM_ACTIVITY_GITHUB_TOKEN;
-            secret/data/fmt/mysql1/db-info host | ECOSYSTEM_ACTIVITY_MYSQL_HOST;
-            secret/data/fmt/mysql1/users/ecosystem-write-user username | ECOSYSTEM_ACTIVITY_MYSQL_USER;
-            secret/data/fmt/mysql1/users/ecosystem-write-user password | ECOSYSTEM_ACTIVITY_MYSQL_PASSWORD;
+            secret/data/fmt/mysql/db-info host | ECOSYSTEM_ACTIVITY_MYSQL_HOST;
+            secret/data/fmt/mysql/users/ecosystem-write username | ECOSYSTEM_ACTIVITY_MYSQL_USER;
+            secret/data/fmt/mysql/users/ecosystem-write password | ECOSYSTEM_ACTIVITY_MYSQL_PASSWORD;
             secret/data/fmt/k8s/ghcr_image_pull username | IMAGE_PULL_USERNAME;
             secret/data/fmt/k8s/ghcr_image_pull password | IMAGE_PULL_PASSWORD;
             secret/data/fmt/k8s/fmt-k8s-internal api_server_url | K8S_API_SERVER_URL;
