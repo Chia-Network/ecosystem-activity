@@ -7,7 +7,7 @@ require (
 	github.com/google/go-github/v52 v52.0.0
 	github.com/robfig/cron v1.2.0
 	github.com/sirupsen/logrus v1.9.3
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
 	golang.org/x/net v0.26.0
 	golang.org/x/oauth2 v0.21.0
