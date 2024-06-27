@@ -100,8 +100,8 @@ jobs:
             secret/data/fmt/mysql/db-info host | ECOSYSTEM_ACTIVITY_MYSQL_HOST;
             secret/data/fmt/mysql/users/ecosystem-write username | ECOSYSTEM_ACTIVITY_MYSQL_USER;
             secret/data/fmt/mysql/users/ecosystem-write password | ECOSYSTEM_ACTIVITY_MYSQL_PASSWORD;
-            secret/data/fmt/k8s/ghcr_image_pull username | IMAGE_PULL_USERNAME;
-            secret/data/fmt/k8s/ghcr_image_pull password | IMAGE_PULL_PASSWORD;
+            secret/data/github/ghcr_image_pull username | IMAGE_PULL_USERNAME;
+            secret/data/github/ghcr_image_pull password | IMAGE_PULL_PASSWORD;
             secret/data/fmt/k8s/k8s-fmt api_server_url | K8S_API_SERVER_URL;
 
       - name: Login to k8s cluster
