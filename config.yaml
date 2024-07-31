@@ -132,6 +132,7 @@ individual_repositories:
   - https://github.com/danieljperry/LeaveALegacy
   - https://github.com/DaOneLuna/auto-chia-wallet
   - https://github.com/Datalayer-Storage/chia-server-coin-cli
+  - https://github.com/Datalayer-Storage/DataLayer-Driver
   - https://github.com/Datalayer-Storage/DataLayerStorageUploadPlugin-debian
   - https://github.com/Datalayer-Storage/DataLayerStorageUploadPlugin-Win64
   - https://github.com/Datalayer-Storage/Decentralized-Internet-Gateway
