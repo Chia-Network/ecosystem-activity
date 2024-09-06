@@ -241,6 +241,8 @@ individual_repositories:
   - https://github.com/grayfallstown/Chia-Plot-Status
   - https://github.com/GreenDoge-Network/greendoge-blockchain
   - https://github.com/greimela/chialisp-playground
+  - https://github.com/greimela/nostr-dex
+  - https://github.com/greimela/splash-terminal
   - https://github.com/grintor/plot_fill
   - https://github.com/gromran/Chia_PlotChecker
   - https://github.com/gtmtechltd/chiafactory-simple-download
@@ -701,7 +703,6 @@ individual_repositories:
   - https://github.com/gowke/lotus-blockchain
   - https://github.com/graemes/mownplow
   - https://github.com/Green-App-Development/green-wallet-android-source
-  - https://github.com/greimela/nostr-dex
   - https://github.com/hashgreen/docs.hashgreen.github.io
   - https://github.com/iced-caffeine/py_dexie_tools
   - https://github.com/inan0812/goji-blockchain
