@@ -1,17 +1,18 @@
 package sorter
 
 import (
+	"github.com/robfig/cron/v3"
+	log "github.com/sirupsen/logrus"
+
 	"github.com/chia-network/ecosystem-activity/internal/db/commits"
 	sortedcommits "github.com/chia-network/ecosystem-activity/internal/db/sorted_commits"
-	"github.com/robfig/cron"
-	log "github.com/sirupsen/logrus"
 )
 
 // Schedule creates a cron for refreshing the sorted commit table
 func Schedule(schedule string) {
 	log.Infof("registering sorter cron with schedule \"%s\"", schedule)
 	c := cron.New()
-	err := c.AddFunc(schedule, RunSortedCommits)
+	_, err := c.AddFunc(schedule, RunSortedCommits)
 	if err != nil {
 		log.Errorf("error encountered registering sorter cron: %v", err)
 	}
