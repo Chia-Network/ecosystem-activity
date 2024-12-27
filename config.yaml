@@ -499,6 +499,7 @@ individual_repositories:
   - https://github.com/Rigidity/bls-signatures
   - https://github.com/Rigidity/chia-tools
   - https://github.com/Rigidity/vscode-chialisp
+  - https://github.com/rkroelin/DrPlotter-Solver-Docker/
   - https://github.com/rjsears/chia_plot_manager
   - https://github.com/robertmetcalf/chia-log
   - https://github.com/rocketeeer/chialisp-testing
