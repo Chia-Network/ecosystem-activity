@@ -638,6 +638,11 @@ individual_repositories:
   - https://github.com/xiaoliwe/xchrobot
   - https://github.com/xorde-nodes/chia-node
   - https://github.com/xorinox/chia-utils
+  - https://github.com/xch-dev/chia-wallet-sdk
+  - https://github.com/xch-dev/rue
+  - https://github.com/xch-dev/rue-docs
+  - https://github.com/xch-dev/rue-vscode
+  - https://github.com/xch-dev/sage
   - https://github.com/xPatrikTwitch/PatrikPlotter
   - https://github.com/xplicit/chiapos-dotnet
   - https://github.com/xTheJakalx/SimpleChiaMADMAXPlotterGUI
