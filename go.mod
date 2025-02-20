@@ -1,6 +1,8 @@
 module github.com/chia-network/ecosystem-activity
 
-go 1.20
+go 1.21
+
+toolchain go1.24.0
 
 require (
 	github.com/go-sql-driver/mysql v1.9.0
