@@ -1,6 +1,6 @@
 module github.com/chia-network/ecosystem-activity
 
-go 1.21
+go 1.23.0
 
 toolchain go1.24.0
 
@@ -12,7 +12,7 @@ require (
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.19.0
 	golang.org/x/net v0.35.0
-	golang.org/x/oauth2 v0.26.0
+	golang.org/x/oauth2 v0.27.0
 )
 
 require (
