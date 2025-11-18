@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"time"
@@ -8,7 +9,6 @@ import (
 	// mysql driver needs comment because linter but this blank import is on purpose
 	_ "github.com/go-sql-driver/mysql"
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/net/context"
 )
 
 var db *sql.DB
