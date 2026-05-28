@@ -1,5 +1,9 @@
 # ecosystem-activity
 
+## Contributing
+
+If you'd like to add a repository to the list this tool collects activity data for, or otherwise contribute, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 ## Local dev
 
 To run this locally, there's a `docker-compose.yml.tmpl` file at the root of the repo. It has the `.tmpl` extension for a reason, and it's to denote that there's some effort to customize it for your needs. But not a lot! That's what this little guide is for. Also this guide is assuming you have already cloned the repository and switched to the repo's directory.
