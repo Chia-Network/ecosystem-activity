@@ -552,23 +552,40 @@ individual_repositories:
   - https://github.com/stefan-lange/chia-price-exporter
   - https://github.com/steppsr/airdrop-nft
   - https://github.com/steppsr/airdrop-nft-windows
+  - https://github.com/steppsr/batch-bulk-move-to-profile
   - https://github.com/steppsr/brighttree
   - https://github.com/steppsr/discord-faucet-bot
   - https://github.com/steppsr/droid_name_generator
   - https://github.com/steppsr/exif2metadata-proofofconcept
+  - https://github.com/steppsr/farmsum
+  - https://github.com/steppsr/filemover
+  - https://github.com/steppsr/get_coin_id
   - https://github.com/steppsr/GetNFTIDsFromCollection
   - https://github.com/steppsr/GetNFTNamesFromNFTIDs
   - https://github.com/steppsr/getxchtx
   - https://github.com/steppsr/getxchtxPS
+  - https://github.com/steppsr/HarvesterDeploymentManager
+  - https://github.com/steppsr/hdd-prep
+  - https://github.com/steppsr/indexify
+  - https://github.com/steppsr/kiwi-nft-faucet
+  - https://github.com/steppsr/macon
+  - https://github.com/steppsr/make-offers
+  - https://github.com/steppsr/MakeNFTOffers
   - https://github.com/steppsr/MyNFTIDs
+  - https://github.com/steppsr/nfts-in-collection
   - https://github.com/steppsr/nftstorage-proofofconcept
   - https://github.com/steppsr/norby_name_generator
+  - https://github.com/steppsr/offer_script
   - https://github.com/steppsr/offerco.de
   - https://github.com/steppsr/OwnerWalletsFromNFTIDs
   - https://github.com/steppsr/random_name_picker
+  - https://github.com/steppsr/TCG-Wallet-Inspector
   - https://github.com/steppsr/txch-faucet
   - https://github.com/steppsr/xchdev_bashtools
+  - https://github.com/steppsr/XCHDevToolkit
   - https://github.com/steppsr/xd-nft-wizard
+  - https://github.com/steppsr/xdnft-gallery
+  - https://github.com/steppsr/xdnft.link
   - https://github.com/stolk/chiaplotgraph
   - https://github.com/strategist922/plotManager
   - https://github.com/strategist922/PlotMonster
